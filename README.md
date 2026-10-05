@@ -1,56 +1,92 @@
 # Laravel Aircrafts
 
+[![Tests](https://github.com/FLAIRUK/laravel-aircrafts/actions/workflows/tests.yml/badge.svg)](https://github.com/FLAIRUK/laravel-aircrafts/actions/workflows/tests.yml)
 [![Latest Stable Version](https://poser.pugx.org/ijeffro/laravel-aircrafts/v/stable)](https://packagist.org/packages/ijeffro/laravel-aircrafts)
-[![Total Downloads](https://poser.pugx.org/ijeffro/laravel-aircrafts/downloads)](https://packagist.org/packages/ijeffro/laravel-aircrafts)
-[![Latest Unstable Version](https://poser.pugx.org/ijeffro/laravel-aircrafts/v/unstable)](https://packagist.org/packages/ijeffro/laravel-aircrafts)
 [![License](https://poser.pugx.org/ijeffro/laravel-aircrafts/license)](https://packagist.org/packages/ijeffro/laravel-aircrafts)
 
-Laravel Aircrafts is a bundle for Laravel, providing Iata Code ISO 3166_3 and country codes for all the aircrafts.
+IATA aircraft type designators (`320`, `738`, `388`, …) for Laravel 12 and 13.
 
-**Please note that the dev-master version is for Laravel 5 only**
+- **No database required.** Look aircraft types up through a facade backed by an in-memory dataset.
+- **Typed results.** Every lookup returns readonly `Aircraft` objects in Laravel collections keyed by code.
+- **Validation rule.** `new AircraftCode` accepts known codes only.
+- **Optional table.** Publish a migration and seed an `aircrafts` table.
 
 ## Installation
 
-Run `composer require ijeffro/laravel-aircrafts dev-master` in your Laravel root directory to install the latest version.
+```bash
+composer require ijeffro/laravel-aircrafts
+```
 
-Or add `ijeffro/laravel-aircrafts` to `composer.json`.
+Laravel discovers the service provider and the `Aircrafts` facade automatically.
 
-    "ijeffro/laravel-aircrafts": "dev-master"
+## Usage
 
-Run `composer update` to pull down the latest version of Aircraft List.
+```php
+use FLAIRUK\Aircrafts\Facades\Aircrafts;
 
-Edit `app/config/app.php` and add the `provider` and `filter`
+Aircrafts::find('738');          // Aircraft { id: 55, code: "738", name: "Boeing 737-800" }
+Aircrafts::findOrFail('388');    // throws ItemNotFoundException for unknown codes
+Aircrafts::exists('73h');        // true (codes are case-insensitive)
+Aircrafts::findById(55);
 
-    'providers' => [
-        ijeffro\Aircrafts\AircraftsServiceProvider::class,
-    ]
+Aircrafts::all();                // Collection<string, Aircraft> keyed by code
+Aircrafts::search('a380');       // matches on name or exact code
+Aircrafts::codes();
+```
 
-Now add the alias.
+### Select options
 
-    'aliases' => [
-        'Aircrafts' => ijeffro\Aircrafts\AircraftsFacade::class,
-    ]
+```php
+Aircrafts::options();            // ['738' => 'Boeing 737-800', ...] sorted by name
+```
 
+### Validation
 
-## Model
+```php
+use FLAIRUK\Aircrafts\Rules\AircraftCode;
 
-You can start by publishing the configuration. This is an optional step, it contains the table name and does not need to be altered. If the default name `aircrafts` suits you, leave it. Otherwise run the following command
+$request->validate(['equipment' => ['required', new AircraftCode]]);
+```
 
-    $ php artisan vendor:publish
+## Database table (optional)
 
-Next generate the migration file:
+```bash
+php artisan aircrafts:install         # publish config + migration, then migrate and seed
+php artisan aircrafts:seed            # insert / update (safe to re-run)
+php artisan aircrafts:seed --prune    # also delete rows no longer in the dataset
+```
 
-    $ php artisan aircrafts:migration
-    $ composer dump-autoload
+You can also call the seeder from your own `DatabaseSeeder`:
 
-It will generate the `<timestamp>_setup_aircrafts_table.php` migration and the `AircraftsSeeder.php` seeder. To make sure the data is seeded insert the following code in the `seeds/DatabaseSeeder.php`
+```php
+$this->call(\FLAIRUK\Aircrafts\Database\AircraftsSeeder::class);
+```
 
-    //Seed the aircrafts
-    $this->call('AircraftsSeeder');
-    $this->command->info('Seeded the aircrafts!');
+The bundled `FLAIRUK\Aircrafts\Models\Aircraft` model gives you `Aircraft::code('738')->first()`. The table name and connection come from `AIRCRAFTS_TABLE` and `AIRCRAFTS_DB_CONNECTION`, or from the published config.
 
-You may now run it with the artisan migrate command:
+## Upgrading from 1.x / dev-master
 
-    $ php artisan migrate --seed
+Version 2 is a rewrite. Breaking changes:
 
-After running this command the filled aircrafts table will be available
+| 1.x | 2.x |
+| --- | --- |
+| `ijeffro\Aircrafts\…` namespace | `FLAIRUK\Aircrafts\…` |
+| Facade `ijeffro\Aircrafts\AircraftsFacade` | `FLAIRUK\Aircrafts\Facades\Aircrafts` (auto-discovered) |
+| `Aircrafts::getList($sort)` (array) | `Aircrafts::all()->sortBy($sort)` (Collection of `Aircraft`) |
+| `Aircrafts::getOne($id)` | `Aircrafts::findById($id)` or `Aircrafts::find($code)` |
+| `Aircrafts::getListForSelect()` | `Aircrafts::options()` |
+| `php artisan aircrafts:migration` | `php artisan aircrafts:install` / `aircrafts:seed` |
+| Config key `aircrafts.table_name` | `aircrafts.table` |
+| `updated` field (a 2015 import timestamp) | removed |
+
+Row `id`s are unchanged.
+
+## Testing
+
+```bash
+composer test
+```
+
+## License
+
+MIT. See [LICENSE](LICENSE).
