@@ -38,6 +38,8 @@
 composer require flairuk/laravel-aircrafts
 ```
 
+Requires PHP 8.2 or later with Laravel 12, or PHP 8.3 or later with Laravel 13.
+
 Laravel discovers the service provider and the `Aircrafts` facade automatically.
 
 <br><br>
@@ -76,7 +78,8 @@ $request->validate(['equipment' => ['required', new AircraftCode]]);
 ## 💾 Database table (optional)
 
 ```bash
-php artisan aircrafts:install         # publish config + migration, then migrate and seed
+php artisan aircrafts:install             # publish config + migration, then ask to migrate and seed
+php artisan aircrafts:install --migrate   # migrate and seed without asking
 php artisan aircrafts:seed            # insert / update (safe to re-run)
 php artisan aircrafts:seed --prune    # also delete rows no longer in the dataset
 ```
@@ -100,7 +103,7 @@ Version 1.0 is a rewrite. Breaking changes:
 | Package `ijeffro/laravel-aircrafts` | `flairuk/laravel-aircrafts` |
 | `ijeffro\Aircrafts\…` namespace | `FLAIRUK\Aircrafts\…` |
 | Facade `ijeffro\Aircrafts\AircraftsFacade` | `FLAIRUK\Aircrafts\Facades\Aircrafts` (auto-discovered) |
-| `Aircrafts::getList($sort)` (array) | `Aircrafts::all()->sortBy($sort)` (Collection of `Aircraft`) |
+| `Aircrafts::getList($sort)` (array) | `Aircrafts::all()->sortBy($property, SORT_NATURAL \| SORT_FLAG_CASE)` (Collection of `Aircraft`) |
 | `Aircrafts::getOne($id)` | `Aircrafts::findById($id)` or `Aircrafts::find($code)` |
 | `Aircrafts::getListForSelect()` (keyed by id) | `Aircrafts::options('id')` |
 | `php artisan aircrafts:migration` | `php artisan aircrafts:install` / `aircrafts:seed` |

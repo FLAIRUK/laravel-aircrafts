@@ -93,6 +93,7 @@ class Aircrafts
      */
     public function codes(): array
     {
-        return $this->all()->keys()->all();
+        // All-digit codes such as "738" become int array keys; hand them back as strings.
+        return array_map(strval(...), $this->all()->keys()->all());
     }
 }

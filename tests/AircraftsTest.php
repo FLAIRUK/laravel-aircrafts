@@ -91,6 +91,17 @@ class AircraftsTest extends TestCase
     {
         $this->assertTrue(Validator::make(['type' => '738'], ['type' => new AircraftCode])->passes());
         $this->assertFalse(Validator::make(['type' => 'ZZZ'], ['type' => new AircraftCode])->passes());
-        $this->assertFalse(Validator::make(['type' => 738], ['type' => new AircraftCode])->passes());
+        $this->assertTrue(Validator::make(['type' => 738], ['type' => new AircraftCode])->passes(), 'JSON numbers are accepted');
+        $this->assertFalse(Validator::make(['type' => 999], ['type' => new AircraftCode])->passes());
+        $this->assertFalse(Validator::make(['type' => 7.38], ['type' => new AircraftCode])->passes());
+    }
+
+    #[Test]
+    public function codes_are_always_strings(): void
+    {
+        $codes = Aircrafts::codes();
+
+        $this->assertContains('738', $codes);
+        $this->assertSame([], array_filter($codes, fn ($code) => ! is_string($code)));
     }
 }
