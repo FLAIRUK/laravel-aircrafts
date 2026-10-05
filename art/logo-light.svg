@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="160" viewBox="0 0 520 160" role="img" aria-label="Laravel Aircrafts">
+  <title>Laravel Aircrafts</title>
+  <defs>
+    <linearGradient id="aircrafts-tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A78BFA"/>
+      <stop offset="1" stop-color="#6D28D9"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(16 16)" color="#6D28D9">
+    <rect width="128" height="128" rx="32" fill="url(#aircrafts-tile)"/>
+    <path d="M64 18C68 18 70 24 70 30V52L104 72V80L70 70V92L80 100V106L64 102L48 106V100L58 92V70L24 80V72L58 52V30C58 24 60 18 64 18Z" fill="#fff"/>
+  </g>
+  <text x="172" y="66" fill="#656D76" font-family="Inter, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="17" font-weight="600" letter-spacing="4">LARAVEL</text>
+  <text x="169" y="118" fill="#1F2328" font-family="Inter, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="56" font-weight="800" letter-spacing="-1.5">Aircrafts</text>
+</svg>
