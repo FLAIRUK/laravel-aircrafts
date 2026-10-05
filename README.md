@@ -10,7 +10,7 @@
   <a href="https://laravel.com/docs/" target="_blank"><img src="https://img.shields.io/badge/Laravel-12%20%7C%2013-FF2D20?style=flat&logo=laravel&logoColor=white" alt="Laravel 12 or 13"></a>&nbsp;
   <a href="https://github.com/FLAIRUK/laravel-aircrafts/actions/workflows/tests.yml" target="_blank"><img src="https://img.shields.io/badge/Lint-%E2%9C%93-2EA043?style=flat&logo=githubactions&logoColor=white" alt="Lint"></a>&nbsp;
   <a href="https://github.com/FLAIRUK/laravel-aircrafts/actions/workflows/tests.yml" target="_blank"><img src="https://img.shields.io/badge/Tests-%E2%9C%93-2EA043?style=flat&logo=githubactions&logoColor=white" alt="Tests"></a>&nbsp;
-  <a href="https://packagist.org/packages/ijeffro/laravel-aircrafts" target="_blank"><img src="https://img.shields.io/packagist/dt/ijeffro/laravel-aircrafts?style=flat&logo=packagist&logoColor=white&label=Downloads&color=F28D1A" alt="Downloads on Packagist"></a>&nbsp;
+  <a href="https://packagist.org/packages/flairuk/laravel-aircrafts" target="_blank"><img src="https://img.shields.io/packagist/dt/flairuk/laravel-aircrafts?style=flat&logo=packagist&logoColor=white&label=Downloads&color=F28D1A" alt="Downloads on Packagist"></a>&nbsp;
   <a href="https://github.com/FLAIRUK/laravel-aircrafts/blob/master/LICENSE" target="_blank"><img src="https://img.shields.io/github/license/FLAIRUK/laravel-aircrafts?style=flat&label=License&color=3DA639" alt="MIT licence"></a>&nbsp;
   <a href="https://www.iata.org/en/publications/directories/code-search/" target="_blank"><img src="https://img.shields.io/badge/Data-IATA-6D28D9?style=flat" alt="IATA"></a>&nbsp;
   <br>&nbsp;
@@ -35,7 +35,7 @@
 ## 📦 Installation
 
 ```bash
-composer require ijeffro/laravel-aircrafts
+composer require flairuk/laravel-aircrafts
 ```
 
 Laravel discovers the service provider and the `Aircrafts` facade automatically.
@@ -97,6 +97,7 @@ Version 1.0 is a rewrite. Breaking changes:
 
 | dev-master | 1.0 |
 | --- | --- |
+| Package `ijeffro/laravel-aircrafts` | `flairuk/laravel-aircrafts` |
 | `ijeffro\Aircrafts\…` namespace | `FLAIRUK\Aircrafts\…` |
 | Facade `ijeffro\Aircrafts\AircraftsFacade` | `FLAIRUK\Aircrafts\Facades\Aircrafts` (auto-discovered) |
 | `Aircrafts::getList($sort)` (array) | `Aircrafts::all()->sortBy($sort)` (Collection of `Aircraft`) |

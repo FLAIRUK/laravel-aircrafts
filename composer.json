@@ -1,5 +1,5 @@
 {
-    "name": "ijeffro/laravel-aircrafts",
+    "name": "flairuk/laravel-aircrafts",
     "description": "IATA aircraft type codes for Laravel: an in-memory lookup API, validation rule and optional database table.",
     "type": "library",
     "license": "MIT",
